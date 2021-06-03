@@ -6,8 +6,8 @@
 # include "../mlx/mlx.h"
 # include <math.h>
 typedef struct s_complex {
-	double	re;
-	double	im;
+	double	r;
+	double	i;
 }t_complex;
 typedef struct s_img {
 	void		*img;
@@ -41,7 +41,7 @@ typedef struct s_win {
 	t_complex	cursor;
 }	t_win;
 
-t_complex	init_complex(double re, double im);
+t_complex	make_complex(double real, double imaginary);
 void		mandelbrot_init(t_win *win);
 void		image_pixel_put(t_img *img, int x, int y, int color);
 int			key_press(int keycode, t_win *win);

@@ -5,19 +5,19 @@ static void	render(t_win *win)
 	win->y = 0;
 	while (win->y < win->height)
 	{
-		win->c.im = win->max.im - win->y * win->transition.im;
+		win->c.i = win->max.i - win->y * win->transition.i;
 		win->x = 0;
 		while (win->x < win->width)
 		{
-			win->c.re = win->min.re + win->x * win->transition.re;
-			win->z = init_complex(win->c.re, win->c.im);
+			win->c.r = win->min.r + win->x * win->transition.r;
+			win->z = make_complex(win->c.r, win->c.i);
 			win->i = 0;
-			while ((win->z.re * win->z.re + win->z.im * win->z.im) <= 4
+			while ((win->z.r * win->z.r + win->z.i * win->z.i) <= 4
 				&& win->i < win->max_i)
 			{
-				win->z = init_complex(win->z.re * win->z.re
-						- win->z.im * win->z.im + win->c.re,
-						2.0 * win->z.re * win->z.im + win->c.im);
+				win->z = make_complex(win->z.r * win->z.r
+						- win->z.i * win->z.i + win->c.r,
+						2.0 * win->z.r * win->z.i + win->c.i);
 				win->i++;
 			}
 			color_pixel(win, (double)win->i / win->max_i);
@@ -32,8 +32,8 @@ int	draw_mandelbrot_cycle(t_win *win)
 	win->main.img = mlx_new_image(win->mlx, win->width, win->height);
 	win->main.addr = mlx_get_data_addr(win->main.img, &win->main.bits_per_pixel,
 			&win->main.line_length, &win->main.endian);
-	win->transition.re = (win->max.re - win->min.re) / (win->width - 1);
-	win->transition.im = (win->max.im - win->min.im) / (win->height - 1);
+	win->transition.r = (win->max.r - win->min.r) / (win->width - 1);
+	win->transition.i = (win->max.i - win->min.i) / (win->height - 1);
 	render(win);
 	mlx_put_image_to_window(win->mlx, win->win, win->main.img, 0, 0);
 	mlx_put_image_to_window(win->mlx, win->win, win->hint.img,
@@ -46,10 +46,10 @@ void	mandelbrot_init(t_win *win)
 	win->type_flag = 1;
 	win->mlx = mlx_init();
 	win->win = mlx_new_window(win->mlx, win->width, win->height, "Mandelbrot");
-	win->min.re = -2.0;
-	win->min.im = -2.0;
-	win->max.re = 2.0;
-	win->max.im = 2.0;
+	win->min.r = -2.0;
+	win->min.i = -2.0;
+	win->max.r = 2.0;
+	win->max.i = 2.0;
 	make_hint(win);
 	put_menu(win);
 	draw_mandelbrot_cycle(win);

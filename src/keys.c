@@ -56,19 +56,19 @@ int	mouse_action(int mouse_code, int x, int y, t_win *win)
 	if (mouse_code == 5 || mouse_code == 4)
 	{
 		mlx_destroy_image(win->mlx, win->main.img);
-		win->cursor = init_complex((double)x / (win->width
-					/ (win->max.re - win->min.re)) + win->min.re,
+		win->cursor = make_complex((double)x / (win->width
+					/ (win->max.r - win->min.r)) + win->min.r,
 				(double)y / (win->height
-					/ (win->max.im - win->min.im)) + win->min.im);
+					/ (win->max.i - win->min.i)) + win->min.i);
 		if (mouse_code == 5)
 			zoom = 1.2;
 		else
 			zoom = 0.5;
 		coefficient = 1 / zoom;
-		win->min.re = transfer(win->cursor.re, win->min.re, coefficient);
-		win->min.im = transfer(win->cursor.im, win->min.im, coefficient);
-		win->max.re = transfer(win->cursor.re, win->max.re, coefficient);
-		win->max.im = transfer(win->cursor.im, win->max.im, coefficient);
+		win->min.r = transfer(win->cursor.r, win->min.r, coefficient);
+		win->min.i = transfer(win->cursor.i, win->min.i, coefficient);
+		win->max.r = transfer(win->cursor.r, win->max.r, coefficient);
+		win->max.i = transfer(win->cursor.i, win->max.i, coefficient);
 		choose_type_draw(win);
 		mlx_do_sync(win->mlx);
 	}
